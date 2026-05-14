@@ -1,11 +1,11 @@
 module.exports = {
     dialect: 'mysql',
-    host: 'localhost', // Endereço do banco de dados
+    host: 'localhost',
     username: 'root',
     password: '',
     database: 'mvc',
     define: {
         timestamps: true,
         underscored: true,
-    }
-}
+    },
+};
