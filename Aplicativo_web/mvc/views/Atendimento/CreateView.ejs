@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Atendimento</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+        /* Estilos reutilizados */
+        :root {
+            --bg-body: #262626;
+            --bg-sidebar: #1f1f1f;
+            --bg-input: #303030;
+            --primary: #686868;
+            --accent: #004ba8;
+            --danger: #962020;
+            --success: #1b5e20;
+            --text-main: #ffffff;
+            --text-muted: #a1a0a0;
+            --border-radius: 4px;
+            --font: "Nunito", sans-serif;
+            --sidebar-width: 60px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .lg-sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .lg-main-container {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .lg-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .lg-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .lg-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--primary);
+            border-radius: var(--border-radius);
+            color: var(--text-main);
+            padding: 8px 12px;
+            font-family: var(--font);
+            font-size: 13px;
+            height: 38px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .lg-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .lg-btn {
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--primary);
+            padding: 0 24px;
+            height: 38px;
+            border-radius: var(--border-radius);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lg-btn-primary {
+            background: linear-gradient(to bottom, #0056c1, #004ba8);
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="lg-sidebar">
+        <a href="/atendimento/" class="lg-nav-item"><i data-lucide="layout-grid"></i></a>
+        <a href="/atendimento/create" class="lg-nav-item active"><i data-lucide="plus-circle"></i></a>
+        <div style="flex-grow: 1;"></div>
+        <a href="/logout" class="lg-nav-item"><i data-lucide="log-out"></i></a>
+    </nav>
+
+    <main class="lg-main-container">
+        <header>
+            <h1 class="lg-display-1">Cadastro de Atendimento</h1>
+            <p class="lg-display-2">
+                Preencha os dados abaixo para registrar um novo atendimento no sistema.
+            </p>
+        </header>
+
+        <form class="lg-form" id="formAtendimento">
+            <div class="lg-form-group">
+                <label class="lg-label" for="nomeCliente">Nome do Cliente</label>
+                <input class="lg-input" type="text" id="nomeCliente" name="nomeCliente" placeholder="Ex: João Silva" required>
+            </div>
+
+            <div class="lg-form-group">
+                <label class="lg-label" for="telefone">Telefone</label>
+                <input class="lg-input" type="text" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
+            </div>
+
+            <div class="lg-form-group">
+                <label class="lg-label" for="dataAtendimento">Data do Atendimento</label>
+                <input class="lg-input" type="date" id="dataAtendimento" name="dataAtendimento" required>
+            </div>
+
+            <div class="lg-form-group">
+                <label class="lg-label" for="horarioAtendimento">Horário do Atendimento</label>
+                <input class="lg-input" type="time" id="horarioAtendimento" name="horarioAtendimento" required>
+            </div>
+
+            <div class="lg-form-group">
+                <label class="lg-label" for="tipoServico">Tipo de Serviço</label>
+                <select class="lg-input" id="tipoServico" name="tipoServico" required>
+                    <option value="Corte de cabelo">Corte de cabelo</option>
+                    <option value="Barba">Barba</option>
+                    <option value="Sobrancelha">Sobrancelha</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+
+            <div class="lg-form-group">
+                <label class="lg-label" for="profissional">Profissional</label>
+                <input class="lg-input" type="text" id="profissional" name="profissional" placeholder="Ex: Maria Souza" required>
+            </div>
+
+            <div class="lg-form-actions">
+                <button class="lg-btn lg-btn-primary" type="submit" id="btnSubmit">Cadastrar Atendimento</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const form = document.getElementById("formAtendimento");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById("btnSubmit");
+            btn.innerText = "Processando...";
+            btn.disabled = true;
+
+            const payload = {
+                nomeCliente: document.getElementById("nomeCliente").value,
+                telefone: document.getElementById("telefone").value,
+                dataAtendimento: document.getElementById("dataAtendimento").value,
+                horarioAtendimento: document.getElementById("horarioAtendimento").value,
+                tipoServico: document.getElementById("tipoServico").value,
+                profissional: document.getElementById("profissional").value
+            };
+
+            try {
+                const response = await fetch("/atendimento/create", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Atendimento cadastrado com sucesso!");
+                    form.reset();
+                } else {
+                    alert("Erro ao cadastrar atendimento: " + data.message);
+                }
+            } catch (err) {
+                alert("Erro ao conectar com o servidor.");
+            } finally {
+                btn.innerText = "Cadastrar Atendimento";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

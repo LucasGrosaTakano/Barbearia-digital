@@ -6,11 +6,21 @@ async function run() {
     const port = 8080;
 
     try {
-     
+
+        Usuario.hasMany(Atendimento, { 
+            foreignKey: "usuarioId",
+            as: "atendimentos",
+            })
+
+        Atendimento.belongsTo(Usuario, {
+            foreignKey: "usuarioId",
+            as: "usuario"
+        })
+
         await sequelize.authenticate();
         console.log('👍 Conexão com o banco realizada com sucesso.');
        
-        await sequelize.sync({ alter: true });
+        await sequelize.sync();
         console.log('👍 Modelos sincronizados.');
    
         server.port = port;

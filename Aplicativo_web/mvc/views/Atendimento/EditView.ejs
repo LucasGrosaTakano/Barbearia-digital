@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Atendimento</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Estilos reutilizados do CreateView */
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Editar Atendimento</h1>
+        <form id="formEdicao">
+            <input type="hidden" id="atendimentoId" value="<%= atendimento.id %>">
+            <label for="nomeCliente">Nome do Cliente</label>
+            <input type="text" id="nomeCliente" value="<%= atendimento.nomeCliente %>" required>
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" value="<%= atendimento.telefone %>" required>
+            <label for="dataAtendimento">Data</label>
+            <input type="date" id="dataAtendimento" value="<%= atendimento.dataAtendimento %>" required>
+            <label for="horarioAtendimento">Horário</label>
+            <input type="time" id="horarioAtendimento" value="<%= atendimento.horarioAtendimento %>" required>
+            <label for="tipoServico">Tipo de Serviço</label>
+            <select id="tipoServico" required>
+                <option value="Corte de cabelo" <%= atendimento.tipoServico === 'Corte de cabelo' ? 'selected' : '' %>>Corte de cabelo</option>
+                <option value="Barba" <%= atendimento.tipoServico === 'Barba' ? 'selected' : '' %>>Barba</option>
+                <option value="Sobrancelha" <%= atendimento.tipoServico === 'Sobrancelha' ? 'selected' : '' %>>Sobrancelha</option>
+                <option value="Outros" <%= atendimento.tipoServico === 'Outros' ? 'selected' : '' %>>Outros</option>
+            </select>
+            <label for="profissional">Profissional</label>
+            <input type="text" id="profissional" value="<%= atendimento.profissional %>" required>
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </main>
+    <script>
+        document.getElementById("formEdicao").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const payload = {
+                nomeCliente: document.getElementById("nomeCliente").value,
+                telefone: document.getElementById("telefone").value,
+                dataAtendimento: document.getElementById("dataAtendimento").value,
+                horarioAtendimento: document.getElementById("horarioAtendimento").value,
+                tipoServico: document.getElementById("tipoServico").value,
+                profissional: document.getElementById("profissional").value
+            };
+            try {
+                const response = await fetch(`/atendimento/edit/${document.getElementById("atendimentoId").value}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) {
+                    alert("Atendimento atualizado com sucesso!");
+                } else {
+                    alert("Erro ao atualizar atendimento.");
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
